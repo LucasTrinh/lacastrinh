@@ -240,6 +240,7 @@ function renderFilms() {
     <strong>${escapeHTML(f[0])}</strong>
     <small>${escapeHTML(f[2])} · ${escapeHTML(f[1])}</small>
   </div>`).join("") || `<p class="muted">No matching titles.</p>`;
+  applyMoviePosters();
 }
 
 function countryChips(countries,wish=false) {
