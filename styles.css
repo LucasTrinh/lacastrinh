@@ -504,3 +504,26 @@ a{color:inherit}
   transform: translateY(-3px);
 }
 
+
+
+/* REAL MOVIE POSTERS */
+
+.film-cover {
+  aspect-ratio: 2 / 3;
+  height: auto;
+  min-height: 170px;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 6px;
+}
+
+.film-tile {
+  overflow: hidden;
+  transition: transform .25s, background .25s;
+}
+
+.film-tile:hover {
+  transform: translateY(-4px);
+  background: #303036;
+}
