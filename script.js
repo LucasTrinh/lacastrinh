@@ -668,42 +668,59 @@ const movieDescriptions = {
 };
 
 // Add clickable details to the existing film list.
+
 function enableFilmDetails() {
   const filmList = document.getElementById("filmList");
   if (!filmList) return;
 
-  const tiles = filmList.querySelectorAll(".film-tile");
-
-  tiles.forEach((tile, index) => {
-    const visibleTitle = tile.querySelector("strong")?.textContent;
-    const film = films.find(f => f[0] === visibleTitle);
+  filmList.querySelectorAll(".film-tile").forEach(tile => {
+    const title = tile.querySelector("strong")?.textContent;
+    const film = films.find(f => f[0] === title);
 
     if (!film) return;
 
-    tile.style.cursor = "pointer";
-    tile.setAttribute("role", "button");
-    tile.setAttribute("tabindex", "0");
-    tile.setAttribute("aria-label", "Explore " + film[0]);
+    const activate = async () => {
+      openDetails({
+        title: film[0],
+        subtitle: film[2] + " · " + film[1],
+        description: movieDescriptions[film[0]] ||
+          "Part of my movie and TV collection. I'll add my thoughts later.",
+        category: "On Repeat",
+        icon: "▣",
+        color: `linear-gradient(135deg,${film[3]},#171725)`
+      });
 
-    const activate = () => openDetails({
-      title: film[0],
-      subtitle: film[2] + " · " + film[1],
-      description: movieDescriptions[film[0]] ||
-        "Part of my personal movie and TV collection. I'll add my thoughts about this title later.",
-      category: "On Repeat",
-      icon: "▣",
-      color: "linear-gradient(135deg," + film[3] + ",#171725)"
-    });
+      const poster = await getPoster(film[0], film[1]);
+
+      // Avoid replacing the image if another movie was selected.
+      if (!detailsPanel.classList.contains("open")) return;
+      if (detailsBody.querySelector(".details-title")?.textContent !== film[0]) return;
+      if (!poster) return;
+
+      const cover = detailsBody.querySelector(".details-cover");
+      if (!cover) return;
+
+      cover.replaceChildren();
+
+      const image = document.createElement("img");
+      image.src = poster;
+      image.alt = film[0] + " poster";
+      image.loading = "lazy";
+
+      cover.appendChild(image);
+    };
 
     tile.onclick = activate;
-    tile.onkeydown = e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
+
+    tile.onkeydown = event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
         activate();
       }
     };
   });
 }
+
 
 // Observe the cinema collection when it changes.
 const filmObserver = new MutationObserver(() => {
@@ -850,11 +867,14 @@ async function applyMoviePosters() {
     const poster = await getPoster(film[0], film[1]);
 
     if (!poster || !cover.isConnected) return;
+   
+cover.style.backgroundImage = `url("${poster}")`;
+cover.style.backgroundSize = "cover";
+cover.style.backgroundPosition = "center";
+cover.style.backgroundRepeat = "no-repeat";
+cover.dataset.poster = poster;
+cover.textContent = "";
 
-    cover.style.backgroundImage = `url("${poster}")`;
-    cover.style.backgroundSize = "cover";
-    cover.style.backgroundPosition = "center";
-    cover.textContent = "";
   });
 
   await Promise.all(requests);
