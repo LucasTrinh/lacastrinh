@@ -7,15 +7,48 @@
 const spotifyURL = "https://open.spotify.com/playlist/0HJiIjzJHQp1KZ8SXCdFUC";
 
 const collections = [
-  {id:"about",title:"The Story So Far",subtitle:"A little about me",icon:"◉",color:"linear-gradient(135deg,#6b55c6,#292653)"},
-  {id:"cinema",title:"On Repeat",subtitle:"Movies, TV & K-dramas",icon:"▣",color:"linear-gradient(135deg,#8c4ba9,#35234c)"},
-  {id:"travel",title:"Around the World",subtitle:"28 countries",icon:"◎",color:"linear-gradient(135deg,#378bb7,#203955)"},
-  {id:"active",title:"The Good Days",subtitle:"Sports & life",icon:"↗",color:"linear-gradient(135deg,#477d83,#263e48)"},
-  {id:"values",title:"What Matters",subtitle:"Faith & people",icon:"♡",color:"linear-gradient(135deg,#8b668f,#393252)"},
-  {id:"music",title:"My Soundtrack",subtitle:"Spotify playlist",icon:"♫",color:"linear-gradient(135deg,#6955b7,#304e99)"},
-  {id:"day",title:"A Perfect Day",subtitle:"My ideal day",icon:"☼",color:"linear-gradient(135deg,#bc7c84,#544376)"},
-  {id:"lately",title:"Life Lately",subtitle:"Memories to come",icon:"▧",color:"linear-gradient(135deg,#5a718c,#3b4162)"},
-  {id:"next",title:"What's Next?",subtitle:"Still exploring",icon:"✧",color:"linear-gradient(135deg,#7396bb,#3e4a85)"}
+  {
+    id:"about",
+    title:"This Is Lucas",
+    subtitle:"Get to know me",
+    icon:"◉",
+    color:"linear-gradient(135deg,#6b55c6,#292653)"
+  },
+  {
+    id:"cinema",
+    title:"On Repeat",
+    subtitle:"Movies, TV & K-dramas",
+    icon:"▣",
+    color:"linear-gradient(135deg,#8c4ba9,#35234c)"
+  },
+  {
+    id:"travel",
+    title:"Travel Mix",
+    subtitle:"28 countries visited",
+    icon:"◎",
+    color:"linear-gradient(135deg,#378bb7,#203955)"
+  },
+  {
+    id:"active",
+    title:"Sports Mix",
+    subtitle:"Sports, running & fitness",
+    icon:"↗",
+    color:"linear-gradient(135deg,#477d83,#263e48)"
+  },
+  {
+    id:"music",
+    title:"Liked Songs",
+    subtitle:"My Spotify playlist",
+    icon:"♥",
+    color:"linear-gradient(135deg,#5e3edb,#b3d9d8)"
+  },
+  {
+    id:"day",
+    title:"daylist",
+    subtitle:"My ideal day",
+    icon:"☼",
+    color:"linear-gradient(135deg,#bc7c84,#544376)"
+  }
 ];
 
 const visited = [
