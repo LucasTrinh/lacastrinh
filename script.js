@@ -477,6 +477,37 @@ async function loadMap() {
 navigate("home",false);
 
 
+const sidebarCovers = {
+  home: ["⌂", "#303039"],
+  about: ["LT", "#5544a0"],
+  cinema: ["▣", "#79458b"],
+  travel: ["✈", "#286c89"],
+  active: ["↗", "#3e6860"],
+  values: ["♡", "#69587e"],
+  music: ["♥", "#5e3edb"]
+};
+
+document.querySelectorAll(".side-item").forEach(button => {
+  const page = button.dataset.page;
+  const cover = sidebarCovers[page];
+
+  if (!cover) return;
+
+  button.dataset.tooltip = button.textContent.trim();
+  button.setAttribute("aria-label", button.dataset.tooltip);
+
+  const symbol = button.querySelector("span");
+  if (symbol) {
+    symbol.textContent = cover[0];
+    symbol.style.background = cover[1];
+    symbol.style.fontWeight = "800";
+  }
+
+  // Hide the text label visually without removing it
+  // from the accessible button name.
+});
+
+
 // ==========================================
 // INTERACTIVE RIGHT-HAND DETAILS PANEL
 // ==========================================
