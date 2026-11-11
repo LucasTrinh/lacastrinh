@@ -50,9 +50,38 @@
       </div>
     </aside>
 
-    <main class="main-panel" id="mainPanel" tabindex="-1">
-      <div id="pageContent"></div>
-    </main>
+
+<div class="content-workspace">
+
+  <main class="main-panel" id="mainPanel" tabindex="-1">
+    <div id="pageContent"></div>
+  </main>
+
+  <aside class="details-panel" id="detailsPanel"
+         aria-label="Collection details">
+
+    <div class="details-header">
+      <span id="detailsHeading">Now exploring</span>
+
+      <button id="closeDetails"
+              class="details-close"
+              aria-label="Close details panel">
+        ✕
+      </button>
+    </div>
+
+    <div class="details-body" id="detailsBody">
+      <div class="details-placeholder">
+        <span class="details-placeholder-icon">♫</span>
+        <h3>Nothing selected yet.</h3>
+        <p>Choose something from your library to explore.</p>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
   </div>
 
   <footer class="player">
