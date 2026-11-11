@@ -225,22 +225,53 @@ function cinemaPage() {
   <div class="film-list" id="filmList"></div>`;
 }
 
+
 function renderFilms() {
-  const list = $("filmList");
+  const list = document.getElementById("filmList");
   if (!list) return;
-  const search = $("searchInput").value.toLowerCase();
+
+  const search = document.getElementById("searchInput").value.toLowerCase();
+
   const matches = films.filter(f =>
-    (cinemaFilter==="All"||f[1]===cinemaFilter) &&
+    (cinemaFilter === "All" || f[1] === cinemaFilter) &&
     f[0].toLowerCase().includes(search)
   );
-  list.innerHTML = matches.map(f=>`<div class="film-tile">
-    <div class="film-cover" style="background:linear-gradient(140deg,${f[3]},#191725)">
-      ${escapeHTML(f[0])}
+
+  list.innerHTML = `
+    <div class="spotify-list-header">
+      <span>#</span>
+      <span>TITLE</span>
+      <span>CATEGORY</span>
+      <span>STATUS</span>
     </div>
-    <strong>${escapeHTML(f[0])}</strong>
-    <small>${escapeHTML(f[2])} · ${escapeHTML(f[1])}</small>
-  </div>`).join("") || `<p class="muted">No matching titles.</p>`;
+
+    ${matches.map((f, i) => `
+      <div class="film-tile spotify-film-row"
+           role="button"
+           tabindex="0"
+           aria-label="Explore ${escapeHTML(f[0])}">
+
+        <span class="film-number">${i + 1}</span>
+
+        <div class="film-main">
+          <div class="film-cover"
+               style="background:linear-gradient(140deg,${f[3]},#191725)">
+          </div>
+
+          <div class="film-name">
+            <strong>${escapeHTML(f[0])}</strong>
+            <small>${escapeHTML(f[2])}</small>
+          </div>
+        </div>
+
+        <span class="film-category">${escapeHTML(f[1])}</span>
+        <span class="film-status">${escapeHTML(f[2])}</span>
+      </div>
+    `).join("")}
+  `;
+
   applyMoviePosters();
+  enableFilmDetails();
 }
 
 function countryChips(countries,wish=false) {
