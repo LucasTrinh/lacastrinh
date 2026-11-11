@@ -475,3 +475,219 @@ async function loadMap() {
 
 // Start on the homepage.
 navigate("home",false);
+
+
+// ==========================================
+// INTERACTIVE RIGHT-HAND DETAILS PANEL
+// ==========================================
+
+const detailsPanel = document.getElementById("detailsPanel");
+const detailsBody = document.getElementById("detailsBody");
+const detailsHeading = document.getElementById("detailsHeading");
+
+function openDetails(item) {
+  if (!detailsPanel || !detailsBody) return;
+
+  const title = String(item.title || "Untitled");
+  const subtitle = String(item.subtitle || "");
+  const description = String(item.description || "");
+  const category = String(item.category || "Lucas's collection");
+  const icon = String(item.icon || "♫");
+  const color = item.color || "#5544a0";
+
+  detailsHeading.textContent = category;
+
+  detailsBody.replaceChildren();
+
+  const cover = document.createElement("div");
+  cover.className = "details-cover";
+  cover.style.background = color;
+
+  const symbol = document.createElement("span");
+  symbol.textContent = icon;
+  cover.appendChild(symbol);
+
+  const heading = document.createElement("h2");
+  heading.className = "details-title";
+  heading.textContent = title;
+
+  const subheading = document.createElement("p");
+  subheading.className = "details-subtitle";
+  subheading.textContent = subtitle;
+
+  const section = document.createElement("div");
+  section.className = "details-section";
+
+  const sectionHeading = document.createElement("h3");
+  sectionHeading.textContent = "A little more about this";
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = description || "More details coming soon.";
+
+  section.append(sectionHeading, paragraph);
+  detailsBody.append(cover, heading, subheading, section);
+
+  detailsPanel.classList.add("open");
+}
+
+function closeDetails() {
+  detailsPanel.classList.remove("open");
+}
+
+document.getElementById("closeDetails")
+  ?.addEventListener("click", closeDetails);
+
+// Movies and TV shows
+const movieDescriptions = {
+  "Pride & Prejudice":
+    "My favourite film of all time. I love the romance, sophisticated banter, ambience and beautiful English countryside.",
+
+  "Good Will Hunting":
+    "One of my top three films. Definitely a film worth rewatching.",
+
+  "The Truman Show":
+    "One of my all-time favourite films.",
+
+  "Bloodhounds":
+    "OH MY DAYS. SO GOOD. One of my favourite K-dramas.",
+
+  "Business Proposal":
+    "One of my favourite Korean dramas.",
+
+  "Twenty-Five Twenty-One":
+    "One of my favourite K-dramas.",
+
+  "Queen of Tears":
+    "One of my favourite Korean dramas.",
+
+  "Modern Family":
+    "One of my favourite comedy series.",
+
+  "Brooklyn Nine-Nine":
+    "One of my favourite TV shows.",
+
+  "Breaking Bad":
+    "One of my favourite television series."
+};
+
+// Add clickable details to the existing film list.
+function enableFilmDetails() {
+  const filmList = document.getElementById("filmList");
+  if (!filmList) return;
+
+  const tiles = filmList.querySelectorAll(".film-tile");
+
+  tiles.forEach((tile, index) => {
+    const visibleTitle = tile.querySelector("strong")?.textContent;
+    const film = films.find(f => f[0] === visibleTitle);
+
+    if (!film) return;
+
+    tile.style.cursor = "pointer";
+    tile.setAttribute("role", "button");
+    tile.setAttribute("tabindex", "0");
+    tile.setAttribute("aria-label", "Explore " + film[0]);
+
+    const activate = () => openDetails({
+      title: film[0],
+      subtitle: film[2] + " · " + film[1],
+      description: movieDescriptions[film[0]] ||
+        "Part of my personal movie and TV collection. I'll add my thoughts about this title later.",
+      category: "On Repeat",
+      icon: "▣",
+      color: "linear-gradient(135deg," + film[3] + ",#171725)"
+    });
+
+    tile.onclick = activate;
+    tile.onkeydown = e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activate();
+      }
+    };
+  });
+}
+
+// Observe the cinema collection when it changes.
+const filmObserver = new MutationObserver(() => {
+  enableFilmDetails();
+});
+
+const pageContentElement = document.getElementById("pageContent");
+
+if (pageContentElement) {
+  filmObserver.observe(pageContentElement, {
+    childList: true,
+    subtree: false
+  });
+}
+
+// Update when cinema filters change.
+document.addEventListener("click", e => {
+  if (e.target.closest("[data-film]")) {
+    requestAnimationFrame(enableFilmDetails);
+  }
+});
+
+// Countries
+function enableCountryDetails() {
+  const chips = document.querySelectorAll(".chip");
+
+  chips.forEach(chip => {
+    const name = chip.textContent.trim();
+    chip.style.cursor = "pointer";
+    chip.setAttribute("role", "button");
+    chip.setAttribute("tabindex", "0");
+
+    const activate = () => openDetails({
+      title: name,
+      subtitle: chip.classList.contains("wish")
+        ? "Travel wishlist"
+        : "Country visited",
+      description: chip.classList.contains("wish")
+        ? "A destination I hope to explore in the future."
+        : "One of the countries I've visited. I'll add my photographs and travel memories here later.",
+      category: "Travel Mix",
+      icon: "◎",
+      color: chip.classList.contains("wish")
+        ? "linear-gradient(135deg,#8b5cf6,#473b81)"
+        : "linear-gradient(135deg,#2e87a3,#243d63)"
+    });
+
+    chip.onclick = activate;
+    chip.onkeydown = e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activate();
+      }
+    };
+  });
+}
+
+// Activate details when switching pages.
+document.addEventListener("click", e => {
+  const page = e.target.closest("[data-page]")?.dataset.page;
+
+  if (page === "travel") {
+    requestAnimationFrame(enableCountryDetails);
+  }
+
+  if (page === "cinema") {
+    requestAnimationFrame(enableFilmDetails);
+  }
+});
+
+// Automatically close when navigating to another collection.
+document.addEventListener("click", e => {
+  if (e.target.closest("[data-page]")) {
+    closeDetails();
+  }
+});
+
+// Escape closes the right-hand panel.
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    closeDetails();
+  }
+});
+
