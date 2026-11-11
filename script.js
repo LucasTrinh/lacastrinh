@@ -757,3 +757,74 @@ document.addEventListener("keydown", e => {
   }
 });
 
+
+
+/* =========================================
+   TMDB MOVIE & TV POSTER LOADER
+   ========================================= */
+
+const posterCache = new Map();
+
+async function getPoster(title, category) {
+  const type =
+    category === "TV" || category === "K-Drama"
+      ? "tv"
+      : "movie";
+
+  const key = `${type}:${title}`;
+
+  if (posterCache.has(key)) {
+    return posterCache.get(key);
+  }
+
+  try {
+    const params = new URLSearchParams({
+      title: title,
+      type: type
+    });
+
+    const response = await fetch(`/api/poster?${params}`);
+
+    if (!response.ok) {
+      throw new Error("Poster API returned " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (!data.poster) return null;
+
+    posterCache.set(key, data.poster);
+
+    return data.poster;
+
+  } catch (error) {
+    console.warn("Could not load poster:", title, error);
+    return null;
+  }
+}
+
+async function applyMoviePosters() {
+  const cards = document.querySelectorAll(".film-tile");
+
+  const requests = Array.from(cards).map(async card => {
+    const title = card.querySelector("strong")?.textContent;
+    const cover = card.querySelector(".film-cover");
+
+    if (!title || !cover) return;
+
+    const film = films.find(item => item[0] === title);
+
+    if (!film) return;
+
+    const poster = await getPoster(film[0], film[1]);
+
+    if (!poster || !cover.isConnected) return;
+
+    cover.style.backgroundImage = `url("${poster}")`;
+    cover.style.backgroundSize = "cover";
+    cover.style.backgroundPosition = "center";
+    cover.textContent = "";
+  });
+
+  await Promise.all(requests);
+}
