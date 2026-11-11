@@ -516,9 +516,10 @@ const sidebarCovers = {
   cinema: ["▣", "#79458b"],
   travel: ["✈", "#286c89"],
   active: ["↗", "#3e6860"],
-  values: ["♡", "#69587e"],
-  music: ["♥", "#5e3edb"]
+  music: ["♥", "#5e3edb"],
+  day: ["☼", "#86618c"]
 };
+
 
 document.querySelectorAll(".side-item").forEach(button => {
   const page = button.dataset.page;
