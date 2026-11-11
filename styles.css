@@ -482,3 +482,25 @@ a{color:inherit}
     transition: none;
   }
 }
+
+
+/* Real movie and TV artwork */
+
+.film-cover {
+  aspect-ratio: 2 / 3;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+}
+
+.film-tile {
+  transition: background .2s, transform .2s;
+}
+
+.film-tile:hover {
+  background: #303036;
+  transform: translateY(-3px);
+}
+
