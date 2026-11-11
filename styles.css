@@ -667,3 +667,138 @@ a{color:inherit}
     height: 47px;
   }
 }
+
+
+/* =========================================
+   FIX: SPOTIFY-STYLE MOVIE LIST
+   ========================================= */
+
+/* Replace the old card grid with a list */
+#filmList.film-list {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  gap: 0 !important;
+  width: 100%;
+}
+
+/* Column headings */
+#filmList .spotify-list-header {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 2fr) 110px 120px;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ffffff25;
+  margin-bottom: 8px;
+  color: #a1a1aa;
+  font-size: 11px;
+}
+
+/* Individual movie rows */
+#filmList .spotify-film-row {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 2fr) 110px 120px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 66px;
+  padding: 7px 16px;
+  margin: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  box-shadow: none;
+  transform: none;
+  cursor: pointer;
+}
+
+/* Spotify hover effect */
+#filmList .spotify-film-row:hover {
+  background: #ffffff15;
+  transform: none;
+}
+
+/* Movie number */
+#filmList .film-number {
+  font-size: 13px;
+  color: #a1a1aa;
+}
+
+/* Poster + movie title */
+#filmList .film-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Small poster thumbnail */
+#filmList .spotify-film-row .film-cover {
+  width: 42px !important;
+  height: 56px !important;
+  min-height: 0 !important;
+  max-height: 56px !important;
+  aspect-ratio: 2 / 3;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Movie title and subtitle */
+#filmList .film-name {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+#filmList .film-name strong {
+  font-size: 13px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#filmList .film-name small {
+  color: #a1a1aa;
+  font-size: 11px;
+}
+
+/* Category and watch status */
+#filmList .film-category,
+#filmList .film-status {
+  color: #b4b4bd;
+  font-size: 12px;
+}
+
+/* Smaller screens */
+@media (max-width: 1050px) {
+  #filmList .spotify-list-header,
+  #filmList .spotify-film-row {
+    grid-template-columns: 25px minmax(0, 1fr) 95px;
+    gap: 10px;
+  }
+
+  #filmList .spotify-list-header span:last-child,
+  #filmList .film-status {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  #filmList .spotify-list-header,
+  #filmList .spotify-film-row {
+    grid-template-columns: 22px minmax(0, 1fr);
+    padding: 8px;
+  }
+
+  #filmList .spotify-list-header span:nth-child(n+3),
+  #filmList .film-category,
+  #filmList .film-status {
+    display: none;
+  }
+}
