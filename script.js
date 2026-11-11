@@ -649,7 +649,7 @@ const pageContentElement = document.getElementById("pageContent");
 if (pageContentElement) {
   filmObserver.observe(pageContentElement, {
     childList: true,
-    subtree: false
+    subtree: true
   });
 }
 
